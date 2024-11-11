@@ -1,10 +1,7 @@
 package com.helpquest.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import jakarta.persistence.*;
+
 import java.sql.Timestamp;
 
 @Entity
@@ -14,14 +11,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
-
     private String name;
     private String email;
     private String passwordHash;
     private String role; // 'individual', 'business', or 'admin'
 
-    private Timestamp createdAt;
+    @ManyToOne
+    @JoinColumn(name = "company_id")
+    private Company company;
 
+    private Timestamp createdAt;
     public Long getUserId() {
         return userId;
     }

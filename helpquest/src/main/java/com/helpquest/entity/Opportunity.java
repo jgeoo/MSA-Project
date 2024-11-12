@@ -14,7 +14,7 @@ public class Opportunity {
     private Long opportunityId;
 
     @ManyToOne
-    @JoinColumn(name = "ngo_id")
+    @JoinColumn(name = "ngoid")
     private NGO ngo;
 
     private String title;

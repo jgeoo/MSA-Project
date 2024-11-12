@@ -3,6 +3,7 @@ package com.helpquest.service;
 import com.helpquest.entity.User;
 import com.helpquest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    private BCryptPasswordEncoder encoder  = new BCryptPasswordEncoder(12);
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -24,6 +26,7 @@ public class UserService {
 
     public User saveUser(User user) {
 //        user.setCreatedAt();
+        user.setPasswordHash(encoder.encode(user.getPasswordHash()));
         return userRepository.save(user);
     }
 

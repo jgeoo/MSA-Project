@@ -1,7 +1,12 @@
-/*
 package com.helpquest.repository;
 
 import com.helpquest.entity.UserBadge;
+import com.helpquest.entity.UserBadgePK;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface UserBadgeRepository extends JpaRepository<UserBadge, UserBadgeId> {}
-*/
+@Repository
+public interface UserBadgeRepository extends JpaRepository<UserBadge, UserBadgePK> {
+    // Custom queries if needed
+}
+

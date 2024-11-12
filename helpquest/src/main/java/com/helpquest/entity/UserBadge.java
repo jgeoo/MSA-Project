@@ -1,27 +1,47 @@
 package com.helpquest.entity;
-/*
+
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
+@IdClass(UserBadgePK.class)
 public class UserBadge {
-    @EmbeddedId
-    private UserBadgeId id;
 
+    @Id
     @ManyToOne
-    @MapsId("userId")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id") // Ensure the logical column name matches
     private User user;
 
+    @Id
     @ManyToOne
-    @MapsId("badgeId")
-    @JoinColumn(name = "badge_id")
+    @JoinColumn(name = "badge_id") // Ensure the logical column name matches
     private Badge badge;
 
-    @Column(name = "awarded_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private LocalDateTime awardedAt = LocalDateTime.now();
+    @Column(name = "awarded_at") // Ensure the logical column name matches the DB column
+    private java.sql.Timestamp awardedAt;
 
     // Getters and Setters
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Badge getBadge() {
+        return badge;
+    }
+
+    public void setBadge(Badge badge) {
+        this.badge = badge;
+    }
+
+    public java.sql.Timestamp getAwardedAt() {
+        return awardedAt;
+    }
+
+    public void setAwardedAt(java.sql.Timestamp awardedAt) {
+        this.awardedAt = awardedAt;
+    }
 }
-*/

@@ -1,14 +1,13 @@
 import React from 'react';
-import { View, Text, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, TextInput, Button, Image, StyleSheet } from 'react-native';
 
 export default function LoginScreen({ navigation }) {
     const handleLogin = () => {
-        navigation.replace('Home');
+        navigation.replace('Main');
     };
 
     return (
         <View style={styles.container}>
-            {/* Add the image here */}
             <Image source={require('../../assets/logo.png')} style={styles.logo} />
 
             <TextInput

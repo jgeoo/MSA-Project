@@ -1,18 +1,23 @@
 import React from 'react';
 import { View, TextInput, Button, Image, StyleSheet } from 'react-native';
 
-export default function LoginScreen({ navigation }) {
-    const handleLogin = () => {
-        navigation.replace('Main');
-    };
+export default function RegisterScreen({ navigation }) {
     const handleRegister = () => {
-        navigation.replace('Register')
+        navigation.replace('Login')
     }
-
+    const handleBack = () => {
+        navigation.replace('Login')
+    }
     return (
         <View style={styles.container}>
             <Image source={require('../../assets/logo.png')} style={styles.logo} />
 
+            <TextInput
+                style={styles.input}
+                placeholder="Name"
+                keyboardType="default"
+                autoCapitalize="none"
+            />
             <TextInput
                 style={styles.input}
                 placeholder="Email"
@@ -24,9 +29,20 @@ export default function LoginScreen({ navigation }) {
                 placeholder="Password"
                 secureTextEntry
             />
+            <TextInput
+                style={styles.input}
+                placeholder="Re-Enter Password"
+                secureTextEntry
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="phoneNumber"
+                keyboardType='phone-pad'
+                secureTextEntry
+            />
             <View style={styles.buttonContainer}>
-            <Button title="Register" onPress={ handleRegister} color="#608BC1" />
-            <Button style={styles.loginButton} title="Login" onPress={handleLogin} color="#133E87" />
+            <Button style={styles.loginButton} title="Back" onPress={handleBack} color="#608BC1" />
+            <Button title="Register" onPress={handleRegister} color="#133E87" />
             </View>
         </View>
     );

@@ -10,6 +10,7 @@ import LeaderboardScreen from '../screens/LeaderboardScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import PostScreen from '../screens/PostScreen';
 import CenterScreen from '../screens/CenterScreen';
+import RegisterScreen from '../screens/RegisterScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -37,7 +38,7 @@ function BottomTabNavigator() {
                 tabBarStyle: {
                     backgroundColor: '#CBDCEB', 
                     borderTopWidth: 0,
-                    height: 60,
+                    height: 80,
                 },
             })}
         >
@@ -58,18 +59,21 @@ function AppNavigator() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-                {/* Login Screen (initial route) */}
                 <Stack.Screen
                     name="Login"
                     component={LoginScreen}
                     options={{ headerShown: false }} // Hides the header for login screen
                 />
-                {/* Main App with Bottom Tabs */}
                 <Stack.Screen
                     name="Main"
                     component={BottomTabNavigator}
                     options={{ headerShown: false }} // Hides the header for tabs
                 />
+                <Stack.Screen
+                    name="Register"
+                    component={RegisterScreen}
+                    options={{headerShown: false}}
+                    />
             </Stack.Navigator>
         </NavigationContainer>
     );

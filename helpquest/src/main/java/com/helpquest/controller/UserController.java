@@ -4,6 +4,7 @@ import com.helpquest.entity.User;
 import com.helpquest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
 
     @GetMapping
     public List<User> getAllUsers() {
@@ -27,15 +29,36 @@ public class UserController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping
+    @PostMapping("/register")
     public User createUser(@RequestBody User user) {
 
         return userService.saveUser(user);
     }
+    @PostMapping("/login")
+    public String login(@RequestBody User user) {
+        return userService.verify(user);
+    }
+    /*
+    public ResponseEntity<?> login(@RequestBody User user) {
+        try {
+            User loggedInUser = userService.loginUser(
+                    user.getEmail(),
+                    user.getPasswordHash()
+            );
+            // Remove password from response
+            loggedInUser.setPasswordHash(null);
+            return ResponseEntity.ok(loggedInUser);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+    */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }

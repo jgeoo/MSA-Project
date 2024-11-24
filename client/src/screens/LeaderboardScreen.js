@@ -1,24 +1,136 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { View, ActivityIndicator, Text, StyleSheet, FlatList } from 'react-native';
 
-export default function LeaderboardScreen() {
+const Leaderboard = () => {
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        // Assuming you use basic authentication
+        const username = 'MSA';
+        const password = 'MSA2024';
+
+        const fetchLeaderboard = async () => {
+            try {
+                const response = await axios.get('http://192.168.1.103:8080/api/leaderboard', {
+                    auth: {
+                        username,
+                        password
+                    },
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                setData(response.data); // Set the leaderboard data
+            } catch (error) {
+                console.error('Error fetching leaderboard data:', error);
+                setError(error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchLeaderboard();
+    }, []);
+
+    if (loading) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text>Loading...</Text>
+            </View>
+        );
+    }
+
+    if (error) {
+        return (
+            <View style={styles.errorContainer}>
+                <Text>Error: {error.message}</Text>
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
-            <Text style={styles.text}>This is the LeaderBoard Screen</Text>
+            <Text style={styles.title}>Leaderboard</Text>
+            <View style={styles.table}>
+                <View style={styles.tableHeader}>
+                    <Text style={styles.tableHeaderText}>Rank</Text>
+                    <Text style={styles.tableHeaderText}>Name</Text>
+                    <Text style={styles.tableHeaderText}>Email</Text>
+                    <Text style={styles.tableHeaderText}>Total Points</Text>
+                </View>
+
+                <FlatList
+                    data={data}
+                    keyExtractor={(item) => item.leaderboardId.toString()}
+                    renderItem={({ item }) => (
+                        <View style={styles.tableRow}>
+                            <Text style={styles.tableCell}>{item.rank}</Text>
+                            <Text style={styles.tableCell}>{item.user.name}</Text>
+                            <Text style={styles.tableCell}>{item.user.email}</Text>
+                            <Text style={styles.tableCell}>{item.totalPoints}</Text>
+                        </View>
+                    )}
+                />
+            </View>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        padding: 10,
+        backgroundColor: '#fff',
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
+        textAlign: 'center',
+    },
+    loadingContainer: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:'#F3F3E0'
-
     },
-    text: {
-        fontSize: 18,
+    errorContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    table: {
+        width: '100%',
+    },
+    tableHeader: {
+        flexDirection: 'row',
+        paddingBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+        backgroundColor: '#f1f1f1',
+        paddingHorizontal: 5,
+    },
+    tableHeaderText: {
+        flex: 1,
         fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    tableRow: {
+        flexDirection: 'row',
+        paddingVertical: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f0f0f0',
+        paddingHorizontal: 5,
+    },
+    tableCell: {
+        flex: 1,
+        textAlign: 'center',
+        fontSize: 14,
     },
 });
+
+export default Leaderboard;

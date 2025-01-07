@@ -11,8 +11,11 @@ import java.util.Optional;
 @Service
 public class NGOService {
 
-    @Autowired
-    private NGORepository ngoRepository;
+    private final NGORepository ngoRepository;
+
+    public NGOService(NGORepository ngoRepository) {
+        this.ngoRepository = ngoRepository;
+    }
 
     // Retrieve all NGOs
     public List<NGO> getAllNGOs() {

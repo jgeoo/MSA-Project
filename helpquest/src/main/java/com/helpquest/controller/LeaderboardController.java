@@ -12,8 +12,11 @@ import java.util.List;
 @RequestMapping("/api/leaderboard")
 public class LeaderboardController {
 
-    @Autowired
-    private LeaderboardService leaderboardService;
+    private final LeaderboardService leaderboardService;
+
+    public LeaderboardController(LeaderboardService leaderboardService) {
+        this.leaderboardService = leaderboardService;
+    }
 
     @GetMapping
     public List<Leaderboard> getAllLeaderboards() {

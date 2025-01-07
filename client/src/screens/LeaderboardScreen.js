@@ -6,33 +6,18 @@ const Leaderboard = () => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const fetchLeaderboard = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/leaderboard');
+            setData(response.data); // Set the leaderboard data
+        } catch (error) {
+            console.error('Error fetching leaderboard data:', error);
+            setError(error);
+        } finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
-        // Assuming you use basic authentication
-        const username = 'MSA';
-        const password = 'MSA2024';
-
-        const fetchLeaderboard = async () => {
-            try {
-                const response = await axios.get('http://192.168.1.103:8080/api/leaderboard', {
-                    auth: {
-                        username,
-                        password
-                    },
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                setData(response.data); // Set the leaderboard data
-            } catch (error) {
-                console.error('Error fetching leaderboard data:', error);
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchLeaderboard();
     }, []);
 

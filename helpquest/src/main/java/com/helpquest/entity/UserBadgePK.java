@@ -1,8 +1,13 @@
 package com.helpquest.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Getter
+@Setter
 public class UserBadgePK implements Serializable {
 
     private Long user;
@@ -14,22 +19,6 @@ public class UserBadgePK implements Serializable {
 
     public UserBadgePK(Long user, Long badge) {
         this.user = user;
-        this.badge = badge;
-    }
-
-    public Long getUser() {
-        return user;
-    }
-
-    public void setUser(Long user) {
-        this.user = user;
-    }
-
-    public Long getBadge() {
-        return badge;
-    }
-
-    public void setBadge(Long badge) {
         this.badge = badge;
     }
 

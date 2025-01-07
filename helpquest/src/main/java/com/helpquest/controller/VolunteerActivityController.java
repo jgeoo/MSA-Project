@@ -12,8 +12,11 @@ import java.util.List;
 @RequestMapping("/api/volunteeractivities")
 public class VolunteerActivityController {
 
-    @Autowired
-    private VolunteerActivityService volunteerActivityService;
+    private final VolunteerActivityService volunteerActivityService;
+
+    public VolunteerActivityController(VolunteerActivityService volunteerActivityService) {
+        this.volunteerActivityService = volunteerActivityService;
+    }
 
     @GetMapping
     public List<VolunteerActivity> getAllVolunteerActivities() {

@@ -14,8 +14,11 @@ import java.util.Optional;
 @RequestMapping("/api/opportunities")
 public class OpportunityController {
 
-    @Autowired
-    private OpportunityService opportunityService;
+    private final OpportunityService opportunityService;
+
+    public OpportunityController(OpportunityService opportunityService) {
+        this.opportunityService = opportunityService;
+    }
 
     // GET all opportunities
     @GetMapping

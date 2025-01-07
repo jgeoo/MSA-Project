@@ -11,8 +11,11 @@ import java.util.Optional;
 @Service
 public class LeaderboardService {
 
-    @Autowired
-    private LeaderboardRepository leaderboardRepository;
+    private final LeaderboardRepository leaderboardRepository;
+
+    public LeaderboardService(LeaderboardRepository leaderboardRepository) {
+        this.leaderboardRepository = leaderboardRepository;
+    }
 
     public List<Leaderboard> getAllLeaderboards() {
         return leaderboardRepository.findAll();

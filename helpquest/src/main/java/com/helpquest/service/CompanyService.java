@@ -10,8 +10,11 @@ import com.helpquest.entity.Company;
 @Service
 public class CompanyService {
 
-    @Autowired
-    private CompanyRepository companyRepository;
+    private final CompanyRepository companyRepository;
+
+    public CompanyService(CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
+    }
 
     // Retrieve all companies
     public List<Company> getAllCompanies() {

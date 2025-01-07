@@ -14,8 +14,11 @@ import com.helpquest.entity.Company;
 @RequestMapping("/api/companies")
 public class CompanyController {
 
-    @Autowired
-    private CompanyService companyService;
+    private final CompanyService companyService;
+
+    public CompanyController(CompanyService companyService) {
+        this.companyService = companyService;
+    }
 
     // GET all companies
     @GetMapping

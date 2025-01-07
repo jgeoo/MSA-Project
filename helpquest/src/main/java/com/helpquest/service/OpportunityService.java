@@ -13,8 +13,11 @@ import java.util.Optional;
 @Service
 public class OpportunityService {
 
-    @Autowired
-    private OpportunityRepository opportunityRepository;
+    private final OpportunityRepository opportunityRepository;
+
+    public OpportunityService(OpportunityRepository opportunityRepository) {
+        this.opportunityRepository = opportunityRepository;
+    }
 
     // Retrieve all opportunities
     public List<Opportunity> getAllOpportunities() {

@@ -16,7 +16,6 @@ public class UserBadgeController {
 
     private final UserBadgeService userBadgeService;
 
-    @Autowired
     public UserBadgeController(UserBadgeService userBadgeService) {
         this.userBadgeService = userBadgeService;
     }

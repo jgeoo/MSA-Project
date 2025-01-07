@@ -11,8 +11,11 @@ import java.util.Optional;
 @Service
 public class CompanyLeaderboardService {
 
-    @Autowired
-    private CompanyLeaderboardRepository companyLeaderboardRepository;
+    private final CompanyLeaderboardRepository companyLeaderboardRepository;
+
+    public CompanyLeaderboardService(CompanyLeaderboardRepository companyLeaderboardRepository) {
+        this.companyLeaderboardRepository = companyLeaderboardRepository;
+    }
 
     public List<CompanyLeaderboard> getAllCompanyLeaderboards() {
         return companyLeaderboardRepository.findAll();

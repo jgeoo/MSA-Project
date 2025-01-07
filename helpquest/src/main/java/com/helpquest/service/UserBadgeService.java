@@ -14,7 +14,6 @@ public class UserBadgeService {
 
     private final UserBadgeRepository userBadgeRepository;
 
-    @Autowired
     public UserBadgeService(UserBadgeRepository userBadgeRepository) {
         this.userBadgeRepository = userBadgeRepository;
     }

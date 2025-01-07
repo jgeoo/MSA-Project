@@ -10,8 +10,11 @@ import java.util.Optional;
 
 @Service
 public class BadgeService {
-    @Autowired
-    private BadgeRepository badgeRepository;
+    private final BadgeRepository badgeRepository;
+
+    public BadgeService(BadgeRepository badgeRepository) {
+        this.badgeRepository = badgeRepository;
+    }
 
     public List<Badge> getAllBadges() { return badgeRepository.findAll(); }
     public Optional<Badge> getBadgeById(Long id) { return badgeRepository.findById(id); }

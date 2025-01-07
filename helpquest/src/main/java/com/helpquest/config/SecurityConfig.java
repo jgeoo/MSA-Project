@@ -32,8 +32,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable) // Disable CSRF for simplicity; adjust for your use case
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("api/users/register", "api/users/login").permitAll()// Public endpoints
-                        .anyRequest().authenticated() // Secure all other endpoints
+//                        .requestMatchers("api/users/register", "api/users/login").permitAll()// Public endpoints
+//                        .anyRequest().authenticated() // Secure all other endpoints
+                                .anyRequest().permitAll() //this for dev only
                 )
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class) // Register JwtFilter
                 .build();

@@ -14,8 +14,11 @@ import java.util.Optional;
 @RequestMapping("/api/ngos")
 public class NGOController {
 
-    @Autowired
-    private NGOService ngoService;
+    private final NGOService ngoService;
+
+    public NGOController(NGOService ngoService) {
+        this.ngoService = ngoService;
+    }
 
     // GET all NGOs
     @GetMapping

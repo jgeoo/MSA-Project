@@ -11,8 +11,11 @@ import java.util.Optional;
 @Service
 public class DonationService {
 
-    @Autowired
-    private DonationRepository donationRepository;
+    private final DonationRepository donationRepository;
+
+    public DonationService(DonationRepository donationRepository) {
+        this.donationRepository = donationRepository;
+    }
 
     public List<Donation> getAllDonations() {
         return donationRepository.findAll();

@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/companyleaderboard")
 public class CompanyLeaderboardController {
 
-    @Autowired
-    private CompanyLeaderboardService companyLeaderboardService;
+    private final CompanyLeaderboardService companyLeaderboardService;
+
+    public CompanyLeaderboardController(CompanyLeaderboardService companyLeaderboardService) {
+        this.companyLeaderboardService = companyLeaderboardService;
+    }
 
     @GetMapping
     public List<CompanyLeaderboard> getAllCompanyLeaderboards() {

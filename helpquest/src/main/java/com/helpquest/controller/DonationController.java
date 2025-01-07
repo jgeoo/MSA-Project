@@ -12,8 +12,11 @@ import java.util.List;
 @RequestMapping("/api/donations")
 public class DonationController {
 
-    @Autowired
-    private DonationService donationService;
+    private final DonationService donationService;
+
+    public DonationController(DonationService donationService) {
+        this.donationService = donationService;
+    }
 
     @GetMapping
     public List<Donation> getAllDonations() {

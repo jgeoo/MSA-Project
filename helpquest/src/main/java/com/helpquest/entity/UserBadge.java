@@ -2,9 +2,13 @@ package com.helpquest.entity;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @IdClass(UserBadgePK.class)
+@Getter
+@Setter
 public class UserBadge {
 
     @Id
@@ -19,29 +23,4 @@ public class UserBadge {
 
     @Column(name = "awarded_at") // Ensure the logical column name matches the DB column
     private java.sql.Timestamp awardedAt;
-
-    // Getters and Setters
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Badge getBadge() {
-        return badge;
-    }
-
-    public void setBadge(Badge badge) {
-        this.badge = badge;
-    }
-
-    public java.sql.Timestamp getAwardedAt() {
-        return awardedAt;
-    }
-
-    public void setAwardedAt(java.sql.Timestamp awardedAt) {
-        this.awardedAt = awardedAt;
-    }
 }

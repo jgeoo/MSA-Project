@@ -15,8 +15,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/badges")
 public class BadgeController {
-    @Autowired
-    private BadgeService badgeService;
+
+    private final BadgeService badgeService;
+
+    public BadgeController(BadgeService badgeService) {
+        this.badgeService = badgeService;
+    }
 
     @GetMapping
     public List<Badge> getAllBadges() { return badgeService.getAllBadges(); }

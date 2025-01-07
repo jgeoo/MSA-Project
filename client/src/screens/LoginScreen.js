@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Image, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
+import { useAuth } from '../utils/AuthContext';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-
-    const BASE_URL = 'http://192.168.1.103:8080/api/users';
+    const { login } = useAuth();
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -17,12 +17,13 @@ export default function LoginScreen({ navigation }) {
 
         setIsLoading(true);
         try {
-            const response = await axios.post(`${BASE_URL}/login`, {
+            const response = await axios.post("http://localhost:8080/api/users/login", {
                 email: email,
-                password: password
+                passwordHash: password
             });
 
             if (response.data) {
+                login(response.data);
                 navigation.replace('Main');
             } else {
                 Alert.alert('Login Failed', 'Invalid credentials');
@@ -37,37 +38,10 @@ export default function LoginScreen({ navigation }) {
             setIsLoading(false);
         }
     };
-
-    const handleRegister = async () => {
-        if (!email || !password) {
-            Alert.alert('Error', 'Please fill in all fields');
-            return;
-        }
-
-        setIsLoading(true);
-        try {
-            const response = await axios.post(`${BASE_URL}/register`, {
-                email: email,
-                password: password
-            });
-
-            if (response.data) {
-                Alert.alert(
-                    'Registration Successful',
-                    'You can now log in with your credentials',
-                    [{ text: 'OK', onPress: () => navigation.replace('Login') }]
-                );
-            }
-        } catch (error) {
-            console.error('Registration error:', error);
-            Alert.alert(
-                'Registration Error',
-                error.response?.data?.message || 'Registration failed'
-            );
-        } finally {
-            setIsLoading(false);
-        }
-    };
+    const handleRegister = () => {
+        navigation.replace('Register')
+    }
+   
 
     return (
         <View style={styles.container}>

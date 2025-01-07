@@ -1,5 +1,6 @@
 package com.helpquest.service;
 
+import com.helpquest.entity.RoleEnum;
 import com.helpquest.entity.User;
 import com.helpquest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,19 +30,13 @@ public class UserService {
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
+    public Optional<User> getUserByEmail(String email){
+        return userRepository.findByEmail(email);
+    }
 
     @Autowired
     AuthenticationManager authManager;
 
-    public User registerUser(User user) {
-
-        if (userRepository.existsByEmail(user.getEmail())) {
-            throw new RuntimeException("Email already registered");
-        }
-        // Encode password before saving
-        user.setPasswordHash(encoder.encode(user.getPasswordHash()));
-        return userRepository.save(user);
-    }
     public User loginUser(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found"));
@@ -56,6 +51,7 @@ public class UserService {
     public String verify(User user) {
         Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPasswordHash()));
         if (authentication.isAuthenticated()) {
+            System.out.println(user.getUserId());
             return jwtService.generateToken(user.getEmail());
         } else {
             return "fail";
@@ -67,6 +63,12 @@ public class UserService {
     }
 
     public User saveUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new RuntimeException("Email already registered");
+        }
+        if (user.getRole() == null) {
+            user.setRole(RoleEnum.INDIVIDUAL);
+        }
 
         user.setPasswordHash(encoder.encode(user.getPasswordHash()));
         return userRepository.save(user);

@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     top: 100,
     alignItems: "flex-start",
     width: "100%",
+    left: 20,
   },
   title: {
     fontSize: 35,

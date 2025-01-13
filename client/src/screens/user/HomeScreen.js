@@ -140,7 +140,6 @@ export default function HomeScreen({ navigation }) {
           Support a Higher Level through Donations!
         </Text>
 
-        {/* Imaginea postării (poți înlocui cu imaginea ta dorită) */}
         <Image
           source={require("../../../assets/donation_image.jpg")}
           style={styles.postImage}

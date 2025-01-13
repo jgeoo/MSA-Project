@@ -1,13 +1,31 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, Image, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode';
 import { useAuth } from '../utils/AuthContext';
 
 export default function LoginScreen({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { login } = useAuth();
+    const { login, setCurrentUser } = useAuth();
+
+    const fetchingCurrentUser = async (decodedToken) => {
+        try {
+            const response = await axios.get(
+                `http://localhost:8080/api/users/email/${decodedToken.sub}`
+            );
+            setCurrentUser(response.data);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching current user data:', error);
+            Alert.alert(
+                'Error',
+                'Unable to fetch user details. Please try again later.'
+            );
+            throw error;
+        }
+    };
 
     const handleLogin = async () => {
         if (!email || !password) {
@@ -19,12 +37,23 @@ export default function LoginScreen({ navigation }) {
         try {
             const response = await axios.post("http://localhost:8080/api/users/login", {
                 email: email,
-                passwordHash: password
+                passwordHash: password,
             });
 
             if (response.data) {
+                const decodedToken = jwtDecode(response.data);
                 login(response.data);
-                navigation.replace('Main');
+
+                const currentUser = await fetchingCurrentUser(decodedToken);
+
+                // Navigate based on role
+                if (currentUser.role === 'ADMIN') {
+                    navigation.replace('AdminDashboard');
+                } else if (currentUser.role === 'INDIVIDUAL') {
+                    navigation.replace('UserDashboard');
+                } else {
+                    Alert.alert('Error', 'Unknown role. Contact support.');
+                }
             } else {
                 Alert.alert('Login Failed', 'Invalid credentials');
             }
@@ -38,10 +67,10 @@ export default function LoginScreen({ navigation }) {
             setIsLoading(false);
         }
     };
+
     const handleRegister = () => {
-        navigation.replace('Register')
-    }
-   
+        navigation.replace('Register');
+    };
 
     return (
         <View style={styles.container}>
@@ -65,15 +94,15 @@ export default function LoginScreen({ navigation }) {
                 editable={!isLoading}
             />
             <View style={styles.buttonContainer}>
-                <Button 
-                    title="Register" 
-                    onPress={handleRegister} 
+                <Button
+                    title="Register"
+                    onPress={handleRegister}
                     color="#608BC1"
                     disabled={isLoading}
                 />
-                <Button 
-                    title="Login" 
-                    onPress={handleLogin} 
+                <Button
+                    title="Login"
+                    onPress={handleLogin}
                     color="#133E87"
                     disabled={isLoading}
                 />

@@ -113,7 +113,7 @@ export default function LoginScreen({ navigation }) {
         <Button
           title="Login"
           onPress={handleLogin}
-          color="#133E87"
+          color="#4a6eac"
           disabled={isLoading}
         />
       </View>

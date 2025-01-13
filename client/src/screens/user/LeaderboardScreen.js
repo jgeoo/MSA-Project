@@ -13,6 +13,7 @@ import {
 import Title from "../../components/Title";
 import { useAuth } from "../../utils/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import { useTheme } from "../../utils/ThemeContext";
 
 const Leaderboard = () => {
   const { token } = useAuth();
@@ -20,6 +21,7 @@ const Leaderboard = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
+  const { themeStyles, isDarkTheme } = useTheme();
 
   let decoded = null;
   if (token && typeof token === "string") {
@@ -127,13 +129,35 @@ const Leaderboard = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: themeStyles.backgroundColor },
+      ]}
+    >
       <Title text="Leaderboard" />
       <View style={styles.table}>
-        <View style={styles.tableHeader}>
-          <Text style={styles.tableHeaderText}>Rank</Text>
-          <Text style={styles.tableHeaderText}>Name</Text>
-          <Text style={styles.tableHeaderText}>Total Points</Text>
+        <View
+          style={[
+            styles.tableHeader,
+            { borderBottomColor: themeStyles.textColor },
+          ]}
+        >
+          <Text
+            style={[styles.tableHeaderText, { color: themeStyles.textColor }]}
+          >
+            Rank
+          </Text>
+          <Text
+            style={[styles.tableHeaderText, { color: themeStyles.textColor }]}
+          >
+            Name
+          </Text>
+          <Text
+            style={[styles.tableHeaderText, { color: themeStyles.textColor }]}
+          >
+            Total Points
+          </Text>
         </View>
 
         <View style={styles.listContainer}>

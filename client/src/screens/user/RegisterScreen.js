@@ -105,7 +105,7 @@ export default function RegisterScreen({ navigation }) {
           onPress={handleBack}
           color="#608BC1"
         />
-        <Button title="Register" onPress={handleRegister} color="#133E87" />
+        <Button title="Register" onPress={handleRegister} color="#4a6eac" />
       </View>
     </View>
   );

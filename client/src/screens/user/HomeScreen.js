@@ -10,16 +10,17 @@ import {
 } from "react-native";
 import { useAuth } from "../../utils/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import { useTheme } from "../../utils/ThemeContext";
 
 import axios from "axios";
 import Title from "../../components/Title";
 
 export default function HomeScreen({ navigation }) {
   const { token } = useAuth();
+  const { themeStyles, isDarkTheme } = useTheme();
   const [currentUser, setCurrentUser] = useState(null);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
   // Decode the token
   let decoded = null;
   if (token && typeof token === "string") {
@@ -94,7 +95,7 @@ export default function HomeScreen({ navigation }) {
   if (isLoading) {
     return (
       <View style={styles.container}>
-        <ActivityIndicator size="large" color="#133E87" />
+        <ActivityIndicator size="large" color="#4a6eac" />
       </View>
     );
   }
@@ -111,7 +112,12 @@ export default function HomeScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        { backgroundColor: themeStyles.backgroundColor },
+      ]}
+    >
       {currentUser && (
         <>
           <Title text={"Welcome, " + currentUser.name + "!"} />
@@ -135,8 +141,15 @@ export default function HomeScreen({ navigation }) {
       )}
 
       {/* Donation Post Section */}
-      <View style={styles.postContainer}>
-        <Text style={styles.postTitle}>
+      <View
+        style={[
+          styles.postContainer,
+          {
+            backgroundColor: isDarkTheme ? "#252525" : "#B3B3A1",
+          },
+        ]}
+      >
+        <Text style={[styles.postTitle, { color: themeStyles.textColor }]}>
           Support a Higher Level through Donations!
         </Text>
 
@@ -154,7 +167,7 @@ export default function HomeScreen({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.disclaimer}>
+        <Text style={[styles.disclaimer, { color: themeStyles.textColor }]}>
           Donations help enhance user experience and support app development.
         </Text>
       </View>

@@ -1,13 +1,11 @@
 import React, { createContext, useState, useContext } from "react";
 
-// Crearea contextului pentru temă
 const ThemeContext = createContext();
 
 export const useTheme = () => {
   return useContext(ThemeContext);
 };
 
-// Componenta ThemeProvider care va furniza tema global în aplicație
 export const ThemeProvider = ({ children }) => {
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
@@ -26,7 +24,6 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-// Stilurile pentru temele de lumină și întunecată
 const lightThemeStyles = {
   backgroundColor: "#F3F3E0",
   textColor: "#333",

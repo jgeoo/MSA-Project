@@ -80,7 +80,11 @@ export default function HomeScreen({ navigation }) {
       <TouchableOpacity
         style={[styles.selectionContainer, { backgroundColor: color }]}
         onPress={() => {
-          navigation.navigate(`${label}`);
+          if (label === "Settings") {
+            navigation.navigate("Main", { screen: "Settings" });
+          } else {
+            navigation.navigate(`${label}`);
+          }
         }}
       >
         <View style={[styles.circle, { backgroundColor: colorCircle }]}>

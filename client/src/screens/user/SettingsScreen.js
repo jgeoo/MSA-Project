@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  View,
-  StyleSheet,
-  Button,
-  TouchableOpacity,
-  Switch,
-  Text,
-} from "react-native";
+import { View, StyleSheet, TouchableOpacity, Switch, Text } from "react-native";
 import { useAuth } from "../../utils/AuthContext";
 import Title from "../../components/Title";
 import { Ionicons } from "@expo/vector-icons";
@@ -36,7 +29,10 @@ export default function SettingsScreen({ navigation }) {
         style={styles.avatar}
       />
 
-      <TouchableOpacity style={styles.optionContainer}>
+      <TouchableOpacity
+        style={styles.optionContainer}
+        onPress={() => navigation.navigate("AboutUs")}
+      >
         <Ionicons
           name="information-circle-outline"
           size={24}

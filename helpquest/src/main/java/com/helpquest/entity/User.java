@@ -1,11 +1,13 @@
 package com.helpquest.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -27,9 +29,11 @@ public class User {
 
     private String phoneNumber;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id")
-    private Company company;
+    private Long totalPoints;
 
-    private Timestamp createdAt;
+    private String createdAt;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "user-donations")
+    private Set<Donation> donations;
 }

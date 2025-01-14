@@ -42,10 +42,7 @@ public class UserController {
     }
     @PostMapping("/login")
     public String login(@RequestBody User user) {
-
-
         return userService.verify(user);
-
     }
 
     @DeleteMapping("/{id}")

@@ -12,7 +12,6 @@ import PostScreen from "../screens/user/PostScreen";
 import CenterScreen from "../screens/user/CenterScreen";
 import RegisterScreen from "../screens/user/RegisterScreen";
 import AboutUsScreen from "../screens/user/AboutUsScreen";
-import AdminDashboard from "../screens/admin/AdminDashboard";
 
 const Tab = createBottomTabNavigator();
 
@@ -99,12 +98,7 @@ function AppNavigator() {
         <Stack.Screen
           name="AboutUs"
           component={AboutUsScreen}
-          options={{ headerShown: false }}/>
-          
-          <Stack.Screen // Hides the header for login screen
-          name = "AdminDashboard" 
-          component={AdminDashboard}
-          options={{headerShown: false}}
+          options={{ headerShown: false }} // Hides the header for login screen
         />
       </Stack.Navigator>
     </NavigationContainer>

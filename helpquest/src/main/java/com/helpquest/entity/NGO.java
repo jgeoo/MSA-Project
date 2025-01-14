@@ -1,11 +1,15 @@
 package com.helpquest.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Set;
+
 @Entity
 @Table(name = "ngos")
 @Getter
@@ -22,10 +26,13 @@ public class NGO {
 
     private String contactEmail;
 
-    private Timestamp createdAt;
+    private String longitude;
 
-    /*
-    @OneToMany(mappedBy = "ngo")
-    private List<Opportunity> opportunities;
-    */
+    private String latitude;
+
+    private String createdAt;
+
+    @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference(value = "ngo-opportunities")
+    private Set<Opportunity> opportunities;
 }

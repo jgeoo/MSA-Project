@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,17 +38,6 @@ public class UserService {
     @Autowired
     AuthenticationManager authManager;
 
-    public User loginUser(String email, String password) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Verify password
-        if (!encoder.matches(password, user.getPasswordHash())) {
-            throw new RuntimeException("Invalid password");
-        }
-
-        return user;
-    }
     public String verify(User user) {
         Authentication authentication = authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPasswordHash()));
         if (authentication.isAuthenticated()) {
@@ -69,8 +59,41 @@ public class UserService {
         if (user.getRole() == null) {
             user.setRole(RoleEnum.INDIVIDUAL);
         }
-
+        user.setTotalPoints(0);
+        user.setCreatedAt(LocalDate.now().toString());
         user.setPasswordHash(encoder.encode(user.getPasswordHash()));
+        return userRepository.save(user);
+    }
+    public User updateUser(Long userId, User userDetails) {
+        // Fetch the existing user by ID
+        Optional<User> optionalUser = userRepository.findById(userId);
+        if (optionalUser.isEmpty()) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+
+        User user = optionalUser.get();
+
+        // Update user fields
+        if (userDetails.getName() != null) {
+            user.setName(userDetails.getName());
+        }
+        if (userDetails.getEmail() != null) {
+            user.setEmail(userDetails.getEmail());
+        }
+        if (userDetails.getPasswordHash() != null) {
+            user.setPasswordHash(userDetails.getPasswordHash());
+        }
+        if (userDetails.getRole() != null) {
+            user.setRole(userDetails.getRole());
+        }
+        if (userDetails.getPhoneNumber() != null) {
+            user.setPhoneNumber(userDetails.getPhoneNumber());
+        }
+        if (userDetails.getTotalPoints() != null) {
+            user.setTotalPoints(userDetails.getTotalPoints());
+        }
+
+        // Save the updated user
         return userRepository.save(user);
     }
 }

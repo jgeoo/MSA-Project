@@ -35,8 +35,6 @@ public class UserController {
                 .map(user -> ResponseEntity.ok(user))
                 .orElse(ResponseEntity.notFound().build());
     }
-
-
     @PostMapping("/register")
     public User createUser(@RequestBody User user) {
 
@@ -46,25 +44,17 @@ public class UserController {
     public String login(@RequestBody User user) {
         return userService.verify(user);
     }
-    /*
-    public ResponseEntity<?> login(@RequestBody User user) {
-        try {
-            User loggedInUser = userService.loginUser(
-                    user.getEmail(),
-                    user.getPasswordHash()
-            );
-            // Remove password from response
-            loggedInUser.setPasswordHash(null);
-            return ResponseEntity.ok(loggedInUser);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-    */
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<User> updateUser(
+            @PathVariable("id") Long id,
+            @RequestBody User userDetails) {
+        User updatedUser = userService.updateUser(id, userDetails);
+        return ResponseEntity.ok(updatedUser);
     }
 }

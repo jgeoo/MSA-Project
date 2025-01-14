@@ -1,5 +1,6 @@
 package com.helpquest.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,13 +18,15 @@ public class Donation {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = true)
+    @JsonBackReference(value = "donations-user")
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "opportunity_id", nullable = true)
+    @JsonBackReference(value = "donations-opportunity")
     private Opportunity opportunity;
 
-    private BigDecimal amount;
+    private Long amount;
 
     @Column(name = "donated_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime donatedAt = LocalDateTime.now();

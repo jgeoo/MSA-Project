@@ -20,7 +20,7 @@ export default function LoginScreen({ navigation }) {
   const fetchingCurrentUser = async (decodedToken) => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/users/email/${decodedToken.sub}`
+        `http://10.0.2.2:8080/api/users/email/${decodedToken.sub}`
       );
       setCurrentUser(response.data);
       return response.data;
@@ -42,33 +42,38 @@ export default function LoginScreen({ navigation }) {
 
     setIsLoading(true);
     try {
+        
       const response = await axios.post(
-        "http://localhost:8080/api/users/login",
+        "http://10.0.2.2:8080/api/users/login",
         {
           email: email,
           passwordHash: password,
         }
       );
-
+      
+      console.log(response.data);
       if (response.data) {
         const decodedToken = jwtDecode(response.data);
         login(response.data);
 
         const currentUser = await fetchingCurrentUser(decodedToken);
 
+
         // Navigate based on role
+        console.log(currentUser, "Rolul userului");
         if (currentUser.role === "ADMIN") {
           navigation.replace("AdminDashboard");
         } else if (currentUser.role === "INDIVIDUAL") {
           navigation.replace("Main");
         } else {
+            
           Alert.alert("Error", "Unknown role. Contact support.");
         }
       } else {
         Alert.alert("Login Failed", "Invalid credentials");
       }
     } catch (error) {
-      console.error("Login error:", error);
+      console.error("Login error:",JSON.stringify(error));
       Alert.alert(
         "Login Failed",
         error.response?.data?.message || "An error occurred during login"

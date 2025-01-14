@@ -37,19 +37,22 @@ const Leaderboard = () => {
 
   const fetchingCurrentUser = async () => {
     try {
+      console.log("Aici Fetch current user");
       const response = await axios.get(
-        `http://localhost:8080/api/users/email/${decoded.sub}`
+        `http://10.0.2.2:8080/api/users/email/${decoded.sub}`
       );
       return response.data;
     } catch (error) {
+
       console.error("Error fetching current user data:", error);
       setError(error);
     }
+
   };
 
   const fetchLeaderboard = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/leaderboard");
+      const response = await axios.get("http://10.0.2.2:8080/api/leaderboard");
       const sortedData = response.data.sort(
         (a, b) => b.totalPoints - a.totalPoints
       );

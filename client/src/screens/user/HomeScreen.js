@@ -37,8 +37,9 @@ export default function HomeScreen({ navigation }) {
   // Fetch current user details
   const fetchingCurrentUser = async () => {
     try {
+      
       const response = await axios.get(
-        `http://localhost:8080/api/users/email/${decoded.sub}`
+        `http://10.0.2.2:8080/api/users/email/${decoded.sub}`
       );
       return response.data;
     } catch (error) {

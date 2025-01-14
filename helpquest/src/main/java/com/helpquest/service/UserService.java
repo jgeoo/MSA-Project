@@ -59,7 +59,7 @@ public class UserService {
         if (user.getRole() == null) {
             user.setRole(RoleEnum.INDIVIDUAL);
         }
-        user.setTotalPoints(0);
+        user.setTotalPoints(0L);
         user.setCreatedAt(LocalDate.now().toString());
         user.setPasswordHash(encoder.encode(user.getPasswordHash()));
         return userRepository.save(user);

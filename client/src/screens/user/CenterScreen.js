@@ -6,6 +6,7 @@ import Center from "../../components/Center";
 import Title from "../../components/Title";
 import { useTheme } from "../../utils/ThemeContext";
 import * as ExpoLocation from "expo-location";
+import axios from "axios";
 
 export default function CenterScreen() {
   const { themeStyles } = useTheme();
@@ -13,6 +14,9 @@ export default function CenterScreen() {
     latitude: null,
     longitude: null,
   });
+  const [centersData, setCentersData] = useState([])
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const calculateDistance = (lat1, lon1, lat2, lon2) => {
     const toRadians = (angle) => (Math.PI / 180) * angle;
@@ -29,31 +33,27 @@ export default function CenterScreen() {
     const distance = R * c;
     return distance.toFixed(1);
   };
-
-  const centersData = [
-    {
-      id: "1",
-      name: "Asociația Casa Faenza",
-      address: "Strada Gării nr. 4, Timișoara",
-      latitude: 45.748871,
-      longitude: 21.208679,
-    },
-    {
-      id: "2",
-      name: "Fundația de Abilitare Speranța",
-      address: "Strada Gheorghe Doja nr. 14, Timișoara",
-      latitude: 45.747215,
-      longitude: 21.223142,
-    },
-    {
-      id: "3",
-      name: "Asociația Ceva de Spus",
-      address: "Strada Vasile Alecsandri nr. 1, Timișoara",
-      latitude: 45.756647,
-      longitude: 21.229962,
-    },
-  ];
-
+  const fetchCenters = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/ngos");
+      console.log(response.data)
+      setCentersData(response.data);
+    } catch (error) {
+      console.error("Error fetching centers data:", error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+  useFocusEffect(
+    useCallback(() => {
+      const fetchData = async () => {
+        setLoading(true);
+        await fetchCenters();
+      };
+      fetchData();
+    }, [])
+  );
   const sortedData = centersData.sort(
     (a, b) =>
       calculateDistance(
@@ -72,12 +72,15 @@ export default function CenterScreen() {
 
   const getCurrentLocationAsync = useCallback(async () => {
     const { status } = await ExpoLocation.requestForegroundPermissionsAsync();
-
+    console.log("----")
     if (status !== "granted") {
       console.error("Permission to access location was denied");
       return;
     }
 
+    const {test} = await ExpoLocation.getCurrentLocationAsync({});
+
+    console.log("location: ", test)
     const location = await ExpoLocation.getCurrentPositionAsync({});
     setCurrentLocation({
       latitude: location.coords.latitude,
@@ -106,7 +109,7 @@ export default function CenterScreen() {
       <FlatList
         style={styles.centersList}
         data={sortedData}
-        keyExtractor={(center) => center.id}
+        keyExtractor={(center) => center.ngoId}
         renderItem={({ item }) => (
           <Center
             center={item}

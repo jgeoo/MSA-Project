@@ -36,10 +36,10 @@ const Center = ({ center, distance, currentLocation }) => {
             center.id === selectedCenter ? styles.selected : null,
           ]}
           onPress={() => {
-            if (selectedCenter === center.id) {
+            if (selectedCenter === center.ngoId) {
               setSelectedCenter("");
             } else {
-              setSelectedCenter(center.id);
+              setSelectedCenter(center.ngoId);
             }
           }}
         >
@@ -57,7 +57,7 @@ const Center = ({ center, distance, currentLocation }) => {
               </Text>
               <Text style={styles.centerField}>
                 <Text style={{ fontWeight: "bold" }}>Address {"\n"}</Text>
-                {center.address}
+                {center.adress}
               </Text>
             </View>
             <View style={styles.secondSectionData}>
@@ -67,7 +67,7 @@ const Center = ({ center, distance, currentLocation }) => {
             </View>
           </View>
         </TouchableOpacity>
-        {selectedCenter && selectedCenter === center.id && (
+        {selectedCenter && selectedCenter === center.ngoId && (
           <View style={styles.mapContainer}>
             <MapView
               style={styles.map}
@@ -85,7 +85,7 @@ const Center = ({ center, distance, currentLocation }) => {
                 }}
               >
                 <Callout style={styles.calloutContainer}>
-                  <Text>{center.address}</Text>
+                  <Text>{center.adress}</Text>
                 </Callout>
               </Marker>
 

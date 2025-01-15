@@ -49,13 +49,14 @@ const Leaderboard = () => {
 
   const fetchLeaderboard = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/leaderboard");
+      const response = await axios.get("http://localhost:8080/api/users/individuals");
       const sortedData = response.data.sort(
         (a, b) => b.totalPoints - a.totalPoints
       );
+      console.log(sortedData);
       setData(sortedData);
     } catch (error) {
-      console.error("Error fetching leaderboard data:", error);
+      console.error("Error fetching users data:", error);
       setError(error);
     } finally {
       setLoading(false);
@@ -163,15 +164,15 @@ const Leaderboard = () => {
         <View style={styles.listContainer}>
           <FlatList
             data={data}
-            keyExtractor={(item) => item.leaderboardId.toString()}
+            keyExtractor={(item) => item.toString()}
             renderItem={({ item }) => (
               <View
                 style={[
                   styles.tableRow,
-                  getRowStyle(item.rank, item.user.userId),
+                  getRowStyle(item.rank, item.userId),
                 ]}
               >
-                {currentUser && item.user.userId === currentUser.userId && (
+                {currentUser && item.userId === currentUser.userId && (
                   <Ionicons
                     name="ellipse"
                     size={15}
@@ -188,7 +189,7 @@ const Leaderboard = () => {
                   )}
                   <Text style={styles.tableCell}>{item.rank}</Text>
                 </View>
-                <Text style={styles.tableCell}>{item.user.name}</Text>
+                <Text style={styles.tableCell}>{item.name}</Text>
                 <Text style={styles.tableCell}>{item.totalPoints}</Text>
               </View>
             )}
@@ -284,7 +285,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   currentUserRow: {
-    shadowOffset: { width: 0, height: 3 }, // Direcționăm shadow-ul mai mult în jos
+    shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.75,
   },
 });

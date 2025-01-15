@@ -29,6 +29,7 @@ public class User {
 
     private String phoneNumber;
 
+    @Column(name = "total_points")
     private Long totalPoints;
 
     private String createdAt;
@@ -36,4 +37,5 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "user-donations")
     private Set<Donation> donations;
+
 }

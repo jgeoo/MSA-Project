@@ -21,7 +21,7 @@ public class Opportunity {
 
     @ManyToOne
     @JoinColumn(name = "ngoId")
-    @JsonBackReference(value = "opportunities-ngo")
+    @JsonBackReference(value = "ngo-opportunities")
     private NGO ngo;
 
     private String title;

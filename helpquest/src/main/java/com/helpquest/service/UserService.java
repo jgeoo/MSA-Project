@@ -96,4 +96,7 @@ public class UserService {
         // Save the updated user
         return userRepository.save(user);
     }
+    public List<User> getIndividualUsers() {
+        return userRepository.findByRole(RoleEnum.INDIVIDUAL);
+    }
 }

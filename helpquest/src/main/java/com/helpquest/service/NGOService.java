@@ -36,8 +36,8 @@ public class NGOService {
     public Optional<NGO> updateNGO(Long id, NGO updatedNGO) {
         return ngoRepository.findById(id).map(ngo -> {
             ngo.setName(updatedNGO.getName());
-            ngo.setDescription(updatedNGO.getDescription());
-            ngo.setContactEmail(updatedNGO.getContactEmail());
+//            ngo.setDescription(updatedNGO.getDescription());
+//            ngo.setContactEmail(updatedNGO.getContactEmail());
             return ngoRepository.save(ngo);
         });
     }

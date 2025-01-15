@@ -22,17 +22,17 @@ public class NGO {
 
     private String name;
 
-    private String description;
 
-    private String contactEmail;
+//    private String contactEmail;
 
-    private String longitude;
+    private Double longitude;
 
-    private String latitude;
+    private Double latitude;
 
-    private String createdAt;
+    private String adress;
 
     @OneToMany(mappedBy = "ngo", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "ngo-opportunities")
     private Set<Opportunity> opportunities;
+
 }

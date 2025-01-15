@@ -17,13 +17,13 @@ public class Donation {
     private Long donationId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = true)
-    @JsonBackReference(value = "donations-user")
+    @JoinColumn(name = "user_id")
+    @JsonBackReference(value = "user-donations")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "opportunity_id", nullable = true)
-    @JsonBackReference(value = "donations-opportunity")
+    @JoinColumn(name = "opportunityId")
+    @JsonBackReference(value = "opportunity-donations")
     private Opportunity opportunity;
 
     private Long amount;

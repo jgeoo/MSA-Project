@@ -23,6 +23,10 @@ public class UserController {
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
+    @GetMapping("/individuals")
+    public List<User> getIndividualUsers() {
+        return userService.getIndividualUsers();
+    }
     @GetMapping("/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email){
         return userService.getUserByEmail(email)
